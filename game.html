@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GeoStrategy — Карта</title>
+  <link rel="stylesheet" href="css/styles.css"/>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+</head>
+<body class="bg">
+  <header class="nav card row space-between p-sm">
+    <div class="row gap-sm">
+      <a href="index.html" class="btn soft">Выйти</a>
+      <a href="admin.html" class="btn soft">Админ</a>
+    </div>
+    <div class="row gap-sm">
+      <span id="playerInfo" class="chip"></span>
+      <span id="stateInfo" class="chip"></span>
+    </div>
+  </header>
+
+  <main class="grid-2">
+    <section class="card p-0 rounded-xl overflow">
+      <div id="map" style="height: calc(100vh - 140px);"></div>
+    </section>
+
+    <section class="card p-md sidebar">
+      <div class="tabs mb-sm">
+        <button data-tab="state" class="tab active">Государство</button>
+        <button data-tab="cities" class="tab">Города</button>
+        <button data-tab="build" class="tab">Постройки</button>
+        <button data-tab="army" class="tab">Армия</button>
+        <button data-tab="diplomacy" class="tab">Дипломатия</button>
+        <button data-tab="tasks" class="tab">Ресурсы</button>
+      </div>
+
+      <div id="tab-state" class="tab-body">
+        <div class="input">
+          <label>Название государства</label>
+          <input id="stateName" placeholder="Например: Новая Европа"/>
+        </div>
+        <div class="input">
+          <label>Флаг (эмодзи)</label>
+          <input id="stateFlag" placeholder="🇺🇦 / 🏴 / 🏳️‍🌈 и т.п."/>
+        </div>
+        <div class="input">
+          <label>Тактика нападения</label>
+          <select id="tacticSelect">
+            <option value="blitz">Блицкриг (быстро, рискованно)</option>
+            <option value="balanced">Сбалансированная</option>
+            <option value="attrition">Истощение (медленно, надёжно)</option>
+          </select>
+        </div>
+        <div class="row gap-sm">
+          <button id="saveState" class="btn primary">Сохранить</button>
+          <button id="relocateCapital" class="btn">Перенести столицу</button>
+        </div>
+        <hr/>
+        <div class="grid">
+          <div class="stat"><span>Территория</span><strong id="territoryKm2">0 км²</strong></div>
+          <div class="stat"><span>Население</span><strong id="population">0</strong></div>
+          <div class="stat"><span>Погода</span><strong id="weather">—</strong></div>
+          <div class="stat"><span>Биом</span><strong id="biome">—</strong></div>
+        </div>
+      </div>
+
+      <div id="tab-cities" class="tab-body hidden">
+        <p class="muted">Кликните по карте, чтобы поставить город/столицу.</p>
+        <div class="row gap-sm">
+          <button id="placeCity" class="btn success">Поставить город</button>
+          <button id="placeCapital" class="btn warning">Поставить столицу</button>
+        </div>
+        <div id="citiesList" class="list mt-sm"></div>
+      </div>
+
+      <div id="tab-build" class="tab-body hidden">
+        <div class="row gap-sm">
+          <button data-building="port" class="btn">Порт</button>
+          <button data-building="tower" class="btn">Башня</button>
+          <button data-building="fortress" class="btn">Крепость</button>
+        </div>
+        <div id="buildingsList" class="list mt-sm"></div>
+      </div>
+
+      <div id="tab-army" class="tab-body hidden">
+        <div class="row gap-sm">
+          <button id="recruitInfantry" class="btn">Нанять пехоту (+10)</button>
+          <button id="disbandInfantry" class="btn">Распустить пехоту (-10)</button>
+        </div>
+        <div class="stat mt-sm"><span>Пехота</span><strong id="infantryCount">0</strong></div>
+      </div>
+
+      <div id="tab-diplomacy" class="tab-body hidden">
+        <div class="input">
+          <label>Пригласить игрока (email)</label>
+          <input id="inviteEmail" placeholder="ally@example.com"/>
+        </div>
+        <div class="row gap-sm">
+          <button id="inviteBtn" class="btn">Пригласить</button>
+        </div>
+        <div class="mt-sm">
+          <div class="stat"><span>Ранги</span></div>
+          <div class="row gap-sm wrap">
+            <button class="chip" data-rank="deputy">Заместитель</button>
+            <button class="chip" data-rank="pm">Премьер-министр</button>
+            <button class="chip" data-rank="general">Генерал</button>
+          </div>
+          <div id="ranksList" class="list mt-sm"></div>
+        </div>
+        <hr/>
+        <div class="row gap-sm">
+          <button id="declareWar" class="btn danger">Объявить войну</button>
+          <button id="offerPeace" class="btn soft">Предложить мир</button>
+        </div>
+        <div id="diplomacyLog" class="log mt-sm"></div>
+      </div>
+
+      <div id="tab-tasks" class="tab-body hidden">
+        <div class="grid">
+          <div class="stat"><span>Дерево</span><strong id="resWood">0</strong></div>
+          <div class="stat"><span>Камень</span><strong id="resStone">0</strong></div>
+          <div class="stat"><span>Железо</span><strong id="resIron">0</strong></div>
+          <div class="stat"><span>Еда</span><strong id="resFood">0</strong></div>
+          <div class="stat"><span>Золото</span><strong id="resGold">0</strong></div>
+          <div class="stat"><span>Нефть</span><strong id="resOil">0</strong></div>
+        </div>
+        <p class="muted">Ресурсы добываются каждую минуту в зависимости от биома/континента и построек.</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="js/data.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>

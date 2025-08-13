@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GeoStrategy — Админ</title>
+  <link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body class="bg">
+  <div class="container card p-md">
+    <div class="row space-between mb-md">
+      <h2>Админ-панель</h2>
+      <div class="row gap-sm">
+        <a href="game.html" class="btn soft">В игру</a>
+        <a href="index.html" class="btn soft">Выход</a>
+      </div>
+    </div>
+    <div class="tabs mb-sm">
+      <button class="tab active" data-tab="users">Пользователи</button>
+      <button class="tab" data-tab="balance">Баланс</button>
+      <button class="tab" data-tab="logs">Логи</button>
+    </div>
+    <div id="tab-users" class="tab-body">
+      <div id="usersList" class="list"></div>
+    </div>
+    <div id="tab-balance" class="tab-body hidden">
+      <div class="grid">
+        <div class="input">
+          <label>Коэф. добычи ресурсов</label>
+          <input id="globalYield" type="number" step="0.1" value="1.0"/>
+        </div>
+        <div class="input">
+          <label>Боевой модификатор</label>
+          <input id="combatMod" type="number" step="0.1" value="1.0"/>
+        </div>
+      </div>
+      <button id="saveBalance" class="btn primary mt-sm">Сохранить</button>
+    </div>
+    <div id="tab-logs" class="tab-body hidden">
+      <div id="adminLog" class="log"></div>
+    </div>
+  </div>
+  <script src="js/admin.js"></script>
+</body>
+</html>

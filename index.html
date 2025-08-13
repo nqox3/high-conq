@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GeoStrategy — Вход / Регистрация</title>
+  <link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body class="bg">
+  <div class="container card p-xl">
+    <div class="center mb-lg">
+      <h1 class="title">GeoStrategy</h1>
+      <p class="muted">Стратегия в духе PixelPlanet: создавай города, государства и развивай империю.</p>
+    </div>
+
+    <div class="tabs mb-md">
+      <button id="tabLogin" class="tab active">Вход</button>
+      <button id="tabRegister" class="tab">Регистрация</button>
+    </div>
+
+    <form id="loginForm" class="grid gap-md">
+      <div class="input">
+        <label>Почта</label>
+        <input type="email" id="loginEmail" placeholder="you@example.com" required/>
+      </div>
+      <div class="input">
+        <label>Пароль</label>
+        <input type="password" id="loginPassword" placeholder="••••••••" required/>
+      </div>
+      <div class="row space-between">
+        <label class="checkbox">
+          <input type="checkbox" id="rememberMe"/> <span>Запомнить меня</span>
+        </label>
+        <a class="link" href="#" id="demoBtn">Демо аккаунт</a>
+      </div>
+      <button class="btn primary">Войти</button>
+    </form>
+
+    <form id="registerForm" class="grid gap-md hidden">
+      <div class="input">
+        <label>Никнейм</label>
+        <input type="text" id="regNick" placeholder="Ваш ник" required/>
+      </div>
+      <div class="input">
+        <label>Почта</label>
+        <input type="email" id="regEmail" placeholder="you@example.com" required/>
+      </div>
+      <div class="input">
+        <label>Пароль</label>
+        <input type="password" id="regPassword" placeholder="Минимум 6 символов" minlength="6" required/>
+      </div>
+      <div class="input">
+        <label>Повтор пароля</label>
+        <input type="password" id="regPassword2" placeholder="Ещё раз" minlength="6" required/>
+      </div>
+      <button class="btn success">Создать аккаунт</button>
+    </form>
+
+    <div class="center mt-md">
+      <a class="btn soft" href="game.html">Продолжить без входа (офлайн демо)</a>
+    </div>
+  </div>
+
+  <footer class="center mt-lg muted">© 2025 GeoStrategy — демо-прототип. Данные хранятся в браузере.</footer>
+
+  <script src="js/auth.js"></script>
+</body>
+</html>
